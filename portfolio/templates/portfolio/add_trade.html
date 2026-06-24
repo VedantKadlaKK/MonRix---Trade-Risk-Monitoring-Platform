@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+
+    <div class="col-md-6">
+
+        <div class="card shadow">
+
+            <div class="card-header">
+
+                <h3>
+                    Add Trade
+                </h3>
+
+                <small>
+                    Portfolio:
+                    {{ portfolio.name }}
+                </small>
+
+            </div>
+
+            <div class="card-body">
+
+                <form method="POST">
+
+                    {% csrf_token %}
+
+                    {{ form.as_p }}
+
+                    <button
+                        type="submit"
+                        class="btn btn-success">
+
+                        Save Trade
+
+                    </button>
+
+                    <a href="/portfolio/{{ portfolio.id }}/"
+                       class="btn btn-secondary">
+
+                        Cancel
+
+                    </a>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

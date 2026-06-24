@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>{{ portfolio.name }}</h1>
+
+<p>
+    Owner: {{ portfolio.owner }}
+</p>
+
+<a href="/portfolio/{{ portfolio.id }}/add-trade/"
+   class="btn btn-success mb-3">
+
+    Add Trade
+
+</a>
+
+<a href="/"
+   class="btn btn-secondary mb-3">
+
+    Back to Dashboard
+
+</a>
+
+<h2>Position Analytics</h2>
+
+<table class="table table-striped">
+
+    <tr>
+        <th>Symbol</th>
+        <th>Quantity</th>
+        <th>Avg Price</th>
+        <th>Market Price</th>
+        <th>Unrealized P&L</th>
+    </tr>
+
+    {% for symbol, data in positions.items %}
+
+    <tr>
+        <td>{{ symbol }}</td>
+        <td>{{ data.quantity }}</td>
+        <td>{{ data.avg_price|floatformat:2 }}</td>
+        <td>{{ data.market_price }}</td>
+        <td>{{ data.unrealized_pnl|floatformat:2 }}</td>
+    </tr>
+
+    {% endfor %}
+
+</table>
+<form method="GET">
+
+    <div class="row mb-3">
+
+        <div class="col-md-6">
+
+            <input
+                type="text"
+                name="symbol"
+                class="form-control"
+                placeholder="Search Symbol">
+
+        </div>
+
+        <div class="col-md-3">
+
+            <button
+                type="submit"
+                class="btn btn-primary">
+
+                Search
+
+            </button>
+
+        </div>
+
+    </div>
+
+</form>
+
+<form method="GET" class="mb-3">
+
+    <select
+        name="trade_type"
+        class="form-select">
+
+        <option value="">
+            All
+        </option>
+
+        <option value="BUY">
+            BUY
+        </option>
+
+        <option value="SELL">
+            SELL
+        </option>
+
+    </select>
+
+    <button
+        type="submit"
+        class="btn btn-primary mt-2">
+
+        Filter
+
+    </button>
+
+</form>
+
+<h2>Trades</h2>
+
+<table class="table table-bordered">
+
+    <tr>
+        <th>Type</th>
+        <th>Symbol</th>
+        <th>Quantity</th>
+        <th>Price</th>
+    </tr>
+
+    {% for trade in trades %}
+
+    <tr>
+        <td>{{ trade.trade_type }}</td>
+        <td>{{ trade.symbol }}</td>
+        <td>{{ trade.quantity }}</td>
+        <td>{{ trade.price }}</td>
+    </tr>
+
+    {% endfor %}
+
+</table>
+
+<h3>
+    Exposure:
+    ₹{{ total_exposure }}
+</h3>
+
+<h3>
+    Risk Limit:
+    ₹{{ portfolio.risk_limit }}
+</h3>
+
+{% if risk_breached %}
+
+<div class="alert alert-danger">
+
+    Risk Limit Breached
+
+</div>
+
+{% else %}
+
+<div class="alert alert-success">
+
+    Within Risk Limit
+
+</div>
+
+{% endif %}
+
+{% endblock %}

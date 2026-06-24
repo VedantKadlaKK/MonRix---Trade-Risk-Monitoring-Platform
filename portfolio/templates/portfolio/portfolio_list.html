@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>MonRix Dashboard</h1>
+
+<div class="row mb-4">
+
+    <div class="col-md-6">
+
+        <div class="card">
+
+            <div class="card-body">
+
+                <h5>Total Portfolios</h5>
+
+                <h2>{{ portfolio_count }}</h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-6">
+
+        <div class="card">
+
+            <div class="card-body">
+
+                <h5>Total Trades</h5>
+
+                <h2>{{ trade_count }}</h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<a href="/create/"
+   class="btn btn-primary mb-3">
+
+    Create Portfolio
+
+</a>
+
+<table class="table table-striped">
+
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Owner</th>
+            <th>Created</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+    {% for portfolio in portfolios %}
+
+        <tr>
+
+            <td>
+
+                <a href="/portfolio/{{ portfolio.id }}/">
+                    {{ portfolio.name }}
+                </a>
+
+            </td>
+
+            <td>{{ portfolio.owner }}</td>
+
+            <td>{{ portfolio.created_at }}</td>
+
+        </tr>
+
+    {% endfor %}
+
+    </tbody>
+
+</table>
+
+{% endblock %}
